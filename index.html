@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>buat kamu </title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffe6eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            max-width: 350px;
+            width: 100%;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .gif-container img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #d1476d;
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        #btn-yes {
+            background-color: #ff4d79;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 77, 121, 0.3);
+            transition: transform 0.1s ease;
+        }
+
+        #btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        #btn-no {
+            background-color: #b0bec5;
+            color: white;
+            position: absolute;
+            transition: all 0.2s ease;
+            z-index: 999;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .success-text {
+            color: #ff4d79;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .music-box {
+            margin-top: 20px;
+            padding: 12px;
+            background: #fff0f3;
+            border-radius: 15px;
+            border: 1px dashed #ff4d79;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Tampilan Pertanyaan -->
+        <div id="content-question">
+            <div class="gif-container">
+                <!-- GIF Kucing Minta Maaf/Manis -->
+                <img src="https://media.giphy.com/media/c7Su6u98gS00ZpZ4Z4/giphy.gif" alt="Cute Cat">
+            </div>
+            <h2>kamu mau ga jadi pacar aku lagi? hehe </h2>
+            <div class="btn-group">
+                <button id="btn-yes" onclick="terimaKasih()">Yes</button>
+                <button id="btn-no" onmouseover="pindahTombol()" onclick="pindahTombol()" ontouchstart="pindahTombol()">No</button>
+            </div>
+        </div>
+
+        <!-- Tampilan Setelah Diterima -->
+        <div id="content-success" class="hidden">
+            <div class="gif-container">
+                <!-- GIF Kucing Senang -->
+                <img src="https://media.giphy.com/media/9f2vSg9S89932LwH3c/giphy.gif" alt="Happy Cat">
+            </div>
+            <div class="success-text">
+                yess akhirnya balikan sayangku, i love u more than anything 
+            </div>
+            
+            <!-- Kotak Musik -->
+            <div class="music-box">
+                <p style="font-size: 12px; color: #666; margin-bottom: 5px;">🎵 sambil dengerin ini ya:</p>
+                <!-- Ganti link src di bawah ini dengan link mp3 lagumu -->
+                <audio id="backsound" controls>
+                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                    Browser kamu tidak mendukung pemutar musik.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const questionSection = document.getElementById('content-question');
+        const successSection = document.getElementById('content-success');
+        const lagu = document.getElementById('backsound');
+
+        // Fungsi acak posisi tombol No (Bekerja di PC hover & HP sentuh)
+        function pindahTombol() {
+            // Batasan area agar tidak keluar dari layar HP/PC
+            const padding = 50;
+            const X = Math.random() * (window.innerWidth - btnNo.offsetWidth - padding);
+            const Y = Math.random() * (window.innerHeight - btnNo.offsetHeight - padding);
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = Math.max(10, X) + 'px';
+            btnNo.style.top = Math.max(10, Y) + 'px';
+        }
+
+        // Fungsi saat tombol Yes ditekan
+        function terimaKasih() {
+            questionSection.classList.add('hidden');
+            successSection.classList.remove('hidden');
+            
+            // Putar musik otomatis (jika diizinkan sistem browser)
+            lagu.play().catch(error => {
+                console.log("Musik otomatis tertahan kebijakan browser, si doi bisa pencet play manual.");
+            });
+        }
+    </script>
+
+</body>
+</html>
